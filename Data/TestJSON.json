@@ -1,0 +1,119 @@
+{
+  "company": "ABC Corporation",
+  "departments": [
+    {
+      "name": "Engineering",
+      "location": "Building 1",
+      "teams": [
+        {
+          "name": "Software Development",
+          "lead": {
+            "name": "John Doe",
+            "experience_years": 8,
+            "is_manager": true
+          },
+          "projects": [
+            {
+              "name": "Project A",
+              "start_date": "2024-01-01",
+              "budget": 100000.50,
+              "completed": false,
+              "team_members": [
+                "Alice",
+                "Bob",
+                "Charlie"
+              ]
+            },
+            {
+              "name": "Project B",
+              "start_date": "2024-03-15",
+              "budget": 75000.25,
+              "completed": true,
+              "team_members": [
+                "David",
+                "Eve",
+                "Frank"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Hardware Development",
+          "lead": {
+            "name": "Jane Smith",
+            "experience_years": 10,
+            "is_manager": true
+          },
+          "projects": [
+            {
+              "name": "Project X",
+              "start_date": "2024-02-10",
+              "budget": 125000.75,
+              "completed": false,
+              "team_members": [
+                "David",
+                "Frank",
+                "Eve"
+              ]
+            },
+            {
+              "name": "Project Y",
+              "start_date": "2024-04-20",
+              "budget": 85000,
+              "completed": false,
+              "team_members": [
+                "Jack",
+                "Karen",
+                "Liam"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Marketing",
+      "location": "Marketing Office",
+      "teams": [
+        {
+          "name": "Digital Marketing",
+          "lead": {
+            "name": "Emily Brown",
+            "experience_years": 6,
+            "is_manager": true
+          },
+          "campaigns": [
+            {
+              "name": "Campaign 1",
+              "start_date": "2024-02-01",
+              "budget": 50000,
+              "active": true
+            },
+            {
+              "name": "Campaign 2",
+              "start_date": "2024-04-10",
+              "budget": 75000,
+              "active": false
+            }
+          ]
+        },
+        {
+          "name": "Product Marketing",
+          "lead": {
+            "name": "Michael Johnson",
+            "experience_years": 7,
+            "is_manager": true
+          },
+          "campaigns": [
+            {
+              "name": "Launch Event",
+              "start_date": "2024-03-20",
+              "budget": 100000,
+              "active": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
