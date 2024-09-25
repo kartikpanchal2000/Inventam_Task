@@ -1,7 +1,9 @@
-const express= require('express')
+const express= require('express');
 const app= express();
-const fs= require('fs')
-const path= require('path')
+const fs= require('fs');
+const path= require('path');
+const DB = require('./config/db');
+const Category= require('./model/category');
 
 const PORT = process.env.PORT ||3000;
 
@@ -119,18 +121,74 @@ app.get('/api/v1/project/same-team',(req,res)=>{
 //  E- category crud: with self join of n-level of sub_category 
 //get API should include:  get_by_parent_id 
 
-const categories = []; 
-app.post('/api/v1/categories', (req, res) => {
-  const newCategory = { id: req.parentId, ...req.body };
-  categories.push(newCategory);
-  res.status(201).json(newCategory);
+//set Db connection
+DB();
+
+//add Categories
+app.post('/api/v1/categories', async (req, res) => {
+    try {
+        const { name, parentId } = req.body;
+        //console.log(parentId);
+        
+        // //if prentdId already exist
+        // const existingParent = await Category.findOne(parentId);
+        // if (existingParent) {
+        //     return res.status(400).json({ error: 'Parent ID is already exist' });
+        // }
+
+        const category = new Category({ name, parentId });
+        await category.save();
+        res.status(201).json(category);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
 
-app.get('/api/v1/categories/:parentId', (req, res) => {
-  const parentId = parseInt(req.params.parentId, 10);
-  const filteredCategories = categories.filter(category => category.parent_id === parentId);
-  res.json(filteredCategories);
+// Get categories by parent ID
+app.get('/api/v1/categories/:parentId', async (req, res) => {
+    try {
+        const { parentId } = req.params;
+        const categories = await Category.find({ parentId });
+        res.json(categories);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
 });
+
+// Insert  data
+app.post('/api/v1/insert-catergories/:parentId', async (req, res) => {
+    try {
+        const { parentId, childNames } = req.body; //
+
+        // Search for the parent category by parentId
+        const parentCategory = await Category.findOne({ parentId: parentId });
+        console.log(parentCategory);
+        if (!parentCategory) {
+            return res.status(404).json({ message: 'Parent category not found' });
+        }
+
+        // child categories based on the input
+        const childCategories = childNames.map(childName => ({
+            name: childName,
+            parentId: parentCategory._id 
+        }));
+
+        console.log(childCategories);
+
+        // Insert child categories
+        const newData = await Category.insertMany(childCategories);
+        console.log('Category model:', Category);
+
+        if(newData)
+        {
+            res.status(201).json({ message: 'Subcategories inserted', parentId: parentCategory._id });
+        }
+        
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 
 
 app.listen(PORT, () => {
